@@ -28,7 +28,6 @@ from pathlib import Path
 # ── Paths ──────────────────────────────────────────────────────────────────────
 SCRIPT_DIR = Path(__file__).parent.resolve()
 CONFIG_FILE = SCRIPT_DIR / "team.config"
-SYSTEM_PROMPT_FILE = SCRIPT_DIR / "agent_system_prompt.md"
 TEAM_CONTEXT_FILE = SCRIPT_DIR / "team_context.md"
 LOGS_DIR = SCRIPT_DIR / "logs"
 SESSION_FILE = LOGS_DIR / "agent2_session.json"
@@ -116,11 +115,13 @@ def main():
     agent2_name = config.get("AGENT2_NAME", "Agent2")
     model = config.get("AGENT2_MODEL", "gemma3:12b")
     ollama_url = config.get("OLLAMA_URL", "http://localhost:11434")
+    system_prompt_filename = config.get("AGENT2_SYSTEM_PROMPT", "agent_system_prompt.md")
+    system_prompt_file = SCRIPT_DIR / system_prompt_filename
 
     # Build system prompt
-    system_prompt = load_text(SYSTEM_PROMPT_FILE)
+    system_prompt = load_text(system_prompt_file)
     if not system_prompt:
-        print(f"Error: agent_system_prompt.md not found at {SYSTEM_PROMPT_FILE}", file=sys.stderr)
+        print(f"Error: {system_prompt_filename} not found at {system_prompt_file}", file=sys.stderr)
         sys.exit(1)
 
     team_context = load_text(TEAM_CONTEXT_FILE)
