@@ -1,0 +1,10 @@
+name: AppSec Pipeline
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  appsec:
+    uses: MenaceLabs/shared-workflows/.github/workflows/appsec.yml@main
